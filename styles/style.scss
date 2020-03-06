@@ -1,0 +1,123 @@
+
+$base: rgb(40, 43, 46);
+$displayBG: rgb(51, 88, 86);
+
+$keyBase: darkslategray;
+$keySpecial: lighten($keyBase, 6);
+$keyOperator: rgb(54, 124, 101);
+$keyRed: indianred;
+$keyOrange: peru;
+
+@font-face { 
+  font-family: 'Digital';
+  src: url('digital.ttf');
+}
+
+html {font-size: 30px;}
+body { background-color: rgb(68, 68, 68); }
+
+.wrapper {
+  width: fit-content;
+  margin: calc(50vh - 8rem) auto 0;
+
+  user-select: none;
+}
+
+.calc {
+  width: fit-content;
+  padding: .4rem .2rem;
+  border-radius: .3rem;
+  
+  background-color: $base;
+  box-shadow:
+    .15rem .1rem 0 darken($base, 2),
+    .3rem .2rem 0 darken($base, 2),
+    .2rem .2rem .4rem darken(gray, 32);
+}
+
+.display {
+  margin: 0.3rem;
+  padding: 0.3rem;
+  border-radius: .2rem;
+
+  text-align: right;
+  font-size: 1.2rem;
+  background-color: $displayBG;
+
+  box-shadow: inset .15rem .1rem 0 darken($displayBG, 6);
+}
+
+.display span {
+  font-family: 'Digital', 'Courier New', monospace;
+  font-weight: bold;
+  letter-spacing: .1rem;
+}
+
+.keypad {
+  margin-top: 0.7rem;
+  display: grid;
+  grid-template-areas:
+    "AC Bksp kInv kDiv"
+    "k7  k8  k9   kStar"
+    "k4  k5  k6   kMinus"
+    "k1  k2  k3   kPlus"
+    "k0  k0  kP   kEq";
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+}
+
+.keypad .key {
+  min-width: 2rem;
+  height: 1.6rem;
+  margin: 0.2rem 0.3rem;
+  border-radius: 2px;
+  
+  text-align: center;
+  line-height: 1.6rem;
+  font-weight: bold;
+  &.spl { font-size: 0.9rem; }
+
+  transition:
+    background-color 300ms ease-in-out;
+
+  position: relative;
+  top: -.1rem;
+  left: -.1rem;
+}
+
+.keypad .key:hover { filter: brightness(1.2); }
+.keypad .key:active {
+  filter: brightness(0.9);
+  top: 0;  left: 0;
+}
+
+@mixin setKeyColor($color) {
+  background-color: $color;
+  box-shadow:
+    .05rem .05rem 0 darken($color, 14),
+    .1rem .1rem 0 darken($color, 14);
+
+  &:active { box-shadow: none; }
+}
+
+.keypad .num { @include setKeyColor($keyBase); }
+.keypad .spl { @include setKeyColor($keySpecial); }
+.keypad .op  { @include setKeyColor($keyOperator); }
+.keypad .kAC { @include setKeyColor($keyOrange); }
+.keypad .kBksp { @include setKeyColor($keyRed); }
+
+
+@for $i from 0 through 9 {
+  .k#{$i} { grid-area: k#{$i}; }
+}
+
+.kPoint { grid-area: kP; }
+.kPlus { grid-area: kPlus; }
+.kMinus { grid-area: kMinus; }
+.kStar { grid-area: kStar; }
+.kDiv { grid-area: kDiv; }
+
+.kInv { grid-area: kInv; }
+.kBksp { grid-area: Bksp; }
+.kEq { grid-area: kEq; }
+.kAC { grid-area: AC; }
